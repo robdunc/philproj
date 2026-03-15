@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Is Real? — A Metaphysical Inquiry</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #060608;
+    --deep: #0d0d14;
+    --panel: #11111a;
+    --border: #1e1e2e;
+    --muted: #2a2a3e;
+    --dim: #4a4a6a;
+    --mid: #7a7a9a;
+    --silver: #b0b0c8;
+    --light: #dddde8;
+    --white: #f0f0f5;
+    --gold: #c8a84b;
+    --gold-dim: #8a6e2a;
+    --red: #c84040;
+    --blue: #4080c8;
+    --glow: rgba(200, 168, 75, 0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--light);
+    font-family: 'Courier Prime', monospace;
+    line-height: 1.8;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    background: linear-gradient(to bottom, rgba(6,6,8,0.95), transparent);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--mid);
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 8rem 2rem 4rem;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(200,168,75,0.06) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(64,128,200,0.04) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 60% at 80% 20%, rgba(200,64,64,0.03) 0%, transparent 60%);
+  }
+
+  .hero-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(200,168,75,0.08);
+    animation: pulse 8s ease-in-out infinite;
+  }
+
+  .hero-circle:nth-child(2) { width: 400px; height: 400px; animation-delay: 0s; }
+  .hero-circle:nth-child(3) { width: 700px; height: 700px; animation-delay: 2s; opacity: 0.5; }
+  .hero-circle:nth-child(4) { width: 1000px; height: 1000px; animation-delay: 4s; opacity: 0.25; }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.05); opacity: 0.3; }
+  }
+
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(5rem, 15vw, 13rem);
+    font-weight: 900;
+    line-height: 0.9;
+    color: var(--white);
+    position: relative;
+    margin-bottom: 2rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+    color: var(--mid);
+    letter-spacing: 0.1em;
+    max-width: 500px;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--gold-dim);
+    margin: 0 auto 1.5rem;
+  }
+
+  .hero-question {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--dim);
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--dim);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--dim), transparent);
+    animation: scrollDrop 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollDrop {
+    0%, 100% { transform: scaleY(1); opacity: 1; }
+    50% { transform: scaleY(0.5); opacity: 0.3; }
+  }
+
+  /* SECTIONS */
+  section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 8rem 2rem;
+  }
+
+  .section-full {
+    max-width: 100%;
+    padding: 8rem 0;
+    background: var(--deep);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-full .section-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 3rem;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .section-body {
+    font-size: 1rem;
+    color: var(--silver);
+    line-height: 1.9;
+    margin-bottom: 2rem;
+    max-width: 720px;
+  }
+
+  /* QUOTE BLOCK */
+  .question-block {
+    border-left: 3px solid var(--gold);
+    padding: 2rem 2.5rem;
+    margin: 3rem 0;
+    background: rgba(200,168,75,0.04);
+    position: relative;
+  }
+
+  .question-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--light);
+    line-height: 1.6;
+  }
+
+  /* THEORIES GRID */
+  .theories-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 4rem 0;
+    background: var(--border);
+  }
+
+  .theory-card {
+    background: var(--panel);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .theory-card:hover { background: var(--deep); }
+
+  .theory-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .theory-card.materialism::before { background: var(--red); }
+  .theory-card.dualism::before { background: var(--blue); }
+
+  .theory-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    color: var(--muted);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .theory-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .theory-tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid;
+    margin-bottom: 2rem;
+  }
+
+  .theory-card.materialism .theory-tag { color: var(--red); border-color: var(--red); }
+  .theory-card.dualism .theory-tag { color: var(--blue); border-color: var(--blue); }
+
+  .theory-body {
+    font-size: 0.9rem;
+    color: var(--silver);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .theory-philosopher {
+    font-size: 0.7rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  /* TRUMAN SECTION */
+  .truman-banner {
+    background: var(--deep);
+    border: 1px solid var(--border);
+    padding: 4rem;
+    margin: 4rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .truman-banner::before {
+    content: '"';
+    position: absolute;
+    top: -2rem;
+    left: 2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 15rem;
+    color: rgba(200,168,75,0.05);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .truman-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .truman-attribution {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* CONNECTIONS */
+  .connections-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    margin: 3rem 0;
+  }
+
+  .connection-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    position: relative;
+  }
+
+  .connection-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .connection-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+
+  .connection-body {
+    font-size: 0.85rem;
+    color: var(--silver);
+    line-height: 1.7;
+  }
+
+  /* ANALYSIS */
+  .analysis-block {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 2.5rem;
+    margin: 2rem 0;
+  }
+
+  .analysis-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .analysis-text {
+    font-size: 0.95rem;
+    color: var(--silver);
+    line-height: 1.85;
+  }
+
+  /* CONCLUSION */
+  .conclusion-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 3rem 0;
+  }
+
+  .conclusion-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 2rem;
+  }
+
+  .conclusion-card-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+
+  .conclusion-card-text {
+    font-size: 0.9rem;
+    color: var(--silver);
+    line-height: 1.8;
+  }
+
+  /* WORKS CITED */
+  .cited-section {
+    max-width: 100%;
+    background: var(--deep);
+    border-top: 1px solid var(--border);
+    padding: 8rem 0;
+  }
+
+  .cited-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .cited-list li {
+    font-size: 0.9rem;
+    color: var(--silver);
+    line-height: 1.7;
+    padding-left: 2rem;
+    border-left: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cited-list li em { color: var(--light); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    padding: 3rem;
+    text-align: center;
+  }
+
+  .footer-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-sub {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+  }
+
+  /* ORNAMENT */
+  .ornament {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 3rem 0;
+    color: var(--dim);
+    font-size: 0.8rem;
+  }
+
+  .ornament::before, .ornament::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+  }
+  .ornament::before { background: linear-gradient(to right, transparent, var(--border)); }
+  .ornament::after { background: linear-gradient(to left, transparent, var(--border)); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .theories-grid { grid-template-columns: 1fr; }
+    .connections-grid { grid-template-columns: 1fr; }
+    .conclusion-cards { grid-template-columns: 1fr; }
+    .theory-card { padding: 2rem; }
+    .truman-banner { padding: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">Metaphysics // PHI 12</a>
+  <ul class="nav-links">
+    <li><a href="#question">The Question</a></li>
+    <li><a href="#theories">Theories</a></li>
+    <li><a href="#truman">The Truman Show</a></li>
+    <li><a href="#analysis">Analysis</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#cited">Works Cited</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-circle"></div>
+  <div class="hero-circle"></div>
+  <div class="hero-circle"></div>
+  <p class="hero-eyebrow">Grade 12 Philosophy — Metaphysics Unit</p>
+  <h1 class="hero-title">What Is<br><em>Real?</em></h1>
+  <p class="hero-subtitle">An inquiry into the nature of reality — physical, mental, or both</p>
+  <div class="hero-divider"></div>
+  <p class="hero-question">Materialism &nbsp;·&nbsp; Property Dualism &nbsp;·&nbsp; The Truman Show</p>
+  <div class="scroll-hint">
+    <span>Explore</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<!-- THE QUESTION -->
+<section id="question">
+  <p class="section-label">01 — The Central Question</p>
+  <h2 class="section-title">Is Reality <em>Physical</em>,<br>Mental, or Both?</h2>
+  <p class="section-body">
+    Metaphysics is the branch of philosophy concerned with the most fundamental nature of existence. At its core lies one of the oldest and most debated questions in human thought: what is reality ultimately made of? Is the universe, at its deepest level, composed entirely of physical matter? Or does consciousness — the mind, the inner life — occupy a separate, irreducible place in the fabric of what exists?
+  </p>
+
+  <div class="question-block">
+    <p class="question-text">"If everything you have ever seen, touched, or known was constructed for you — would it still be real?"</p>
+  </div>
+
+  <p class="section-body">
+    This question is not merely academic. It touches on who we are, how we know what we know, and whether the world we experience corresponds to anything beyond our own minds. Two dominant philosophical theories — Materialism and Property Dualism — offer competing answers. And surprisingly, a 1998 film about a man who never knew he was living inside a television show may illuminate the debate more vividly than any textbook.
+  </p>
+</section>
+
+<!-- THEORIES -->
+<div class="section-full" id="theories">
+  <div class="section-inner">
+    <p class="section-label">02 — The Philosophical Frameworks</p>
+    <h2 class="section-title">Two Theories of <em>Reality</em></h2>
+    <p class="section-body">
+      Since ancient Greece, philosophers have proposed competing accounts of what ultimately exists. The two most important modern frameworks are Materialism — which holds that only physical matter is real — and Property Dualism — which holds that while there is only one kind of substance, it possesses both physical and mental properties that cannot be reduced to each other.
+    </p>
+
+    <div class="theories-grid">
+      <!-- MATERIALISM -->
+      <div class="theory-card materialism">
+        <div class="theory-number">01</div>
+        <div class="theory-name">Materialism</div>
+        <div class="theory-tag">Physical Reality Only</div>
+        <p class="theory-body">
+          Materialism — also called physicalism — holds that everything that exists is ultimately physical. The universe is composed entirely of matter and energy operating according to physical laws. The mind, consciousness, emotions, and thoughts are not separate substances; they are entirely reducible to physical processes in the brain.
+        </p>
+        <p class="theory-body">
+          On this view, what we call "the mind" is simply what the brain does. When neurons fire, when electrochemical signals propagate — that is thinking. There is no ghost in the machine. Love, fear, and curiosity are ultimately nothing more than physical states of a biological organ.
+        </p>
+        <p class="theory-body">
+          Materialism has enormous scientific support. Neuroscience, biology, and physics all point toward a world fully explicable in physical terms. When the brain is damaged, consciousness changes — suggesting that mind depends entirely on matter.
+        </p>
+        <div class="theory-philosopher">
+          Key philosophers: Thomas Hobbes · Patricia Churchland · Daniel Dennett
+        </div>
+      </div>
+
+      <!-- PROPERTY DUALISM -->
+      <div class="theory-card dualism">
+        <div class="theory-number">02</div>
+        <div class="theory-name">Property Dualism</div>
+        <div class="theory-tag">Physical + Mental Properties</div>
+        <p class="theory-body">
+          Property Dualism agrees with Materialism that there is only one kind of substance in the world — physical matter. But it holds that matter can have two fundamentally different kinds of properties: physical properties (mass, charge, extension) and mental properties (what it feels like to see red, to feel pain, to be aware).
+        </p>
+        <p class="theory-body">
+          Mental properties — sometimes called "qualia" — cannot be reduced to or fully explained by physical descriptions. There is something it is like to experience the colour blue that cannot be captured by describing wavelengths and neural firing patterns. The subjective, first-person experience is real, even if the underlying substance is physical.
+        </p>
+        <p class="theory-body">
+          This theory attempts to honor both the findings of science and the undeniable reality of conscious experience — making it one of the most influential positions in contemporary philosophy of mind.
+        </p>
+        <div class="theory-philosopher">
+          Key philosophers: David Chalmers · Frank Jackson · Thomas Nagel
+        </div>
+      </div>
+    </div>
+
+    <div class="ornament">✦</div>
+
+    <p class="section-body">
+      The tension between these two theories is not merely academic. It is the difference between a world in which your inner life is fully explainable by brain chemistry, and a world in which consciousness is something over and above the physical — something that demands its own place in our account of what is real.
+    </p>
+  </div>
+</div>
+
+<!-- THE TRUMAN SHOW -->
+<section id="truman">
+  <p class="section-label">03 — The Truman Show (1998)</p>
+  <h2 class="section-title">A World <em>Constructed</em><br>for One Man</h2>
+  <p class="section-body">
+    Directed by Peter Weir and starring Jim Carrey, <em>The Truman Show</em> (1998) tells the story of Truman Burbank — a man who has lived his entire life inside an enormous dome-covered artificial world, unknowingly the star of a global reality television show. Every person he has ever known is an actor. Every sunrise is fabricated. The town of Seahaven is a set, and the sky is a screen.
+  </p>
+
+  <div class="truman-banner">
+    <p class="truman-quote">"Good morning, and in case I don't see ya: good afternoon, good evening, and good night."</p>
+    <p class="truman-attribution">— Truman Burbank, The Truman Show (1998)</p>
+  </div>
+
+  <p class="section-body">
+    The film functions as a sustained philosophical thought experiment. Truman's world is physically real — he can touch the walls, taste the food, feel the rain. But its existence is entirely dependent on a mental construction: the decision of a director named Christof to build it, populate it, and maintain it for an audience. Reality, in Seahaven, is both physical and mental simultaneously.
+  </p>
+
+  <div class="connections-grid">
+    <div class="connection-card">
+      <div class="connection-icon">🏙️</div>
+      <div class="connection-title">The Physical World</div>
+      <p class="connection-body">Seahaven is materially real to Truman. He experiences physical sensations — warmth, cold, joy, fear. His brain processes genuine physical stimuli. The matter is real even if the meaning is constructed.</p>
+    </div>
+    <div class="connection-card">
+      <div class="connection-icon">🧠</div>
+      <div class="connection-title">The Mental Construction</div>
+      <p class="connection-body">The world was designed, scripted, and maintained by human minds. Christof's intentions gave Seahaven its form. Without consciousness choosing to create it, the physical world of the show would not exist at all.</p>
+    </div>
+    <div class="connection-card">
+      <div class="connection-icon">🚪</div>
+      <div class="connection-title">The Moment of Freedom</div>
+      <p class="connection-body">When Truman walks through the door at the edge of the dome, he chooses subjective truth over physical comfort — affirming that consciousness and inner experience cannot be fully contained by any physical construction.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ANALYSIS -->
+<div class="section-full" id="analysis">
+  <div class="section-inner">
+    <p class="section-label">04 — Philosophical Analysis</p>
+    <h2 class="section-title">Why The Truman Show<br>Proves Reality Is <em>Both</em></h2>
+
+    <p class="section-body">
+      The Truman Show is not merely a metaphor for reality — it is a philosophical argument. Analyzed through the lens of Materialism and Property Dualism, the film demonstrates why neither theory alone can account for the full nature of what is real. Reality, the film insists, is irreducibly both physical and mental.
+    </p>
+
+    <div class="analysis-block">
+      <p class="analysis-label">Argument 01 — The Materialist Reading Is Incomplete</p>
+      <p class="analysis-text">
+        A strict Materialist would say that Truman's reality is simply whatever his brain processes as physical input. Since he genuinely receives physical stimuli — light, sound, touch, warmth — his reality is real by definition. The origin of those stimuli is irrelevant. This is a coherent position, but it leads to a troubling conclusion: any sufficiently convincing physical simulation is just as real as "nature." The film challenges this by showing that when Truman discovers the truth — a purely mental revelation — his relationship to physical reality changes entirely. The same physical world that felt real is suddenly hollow. This shows that physical facts alone cannot determine what is real to a conscious mind.
+      </p>
+    </div>
+
+    <div class="analysis-block">
+      <p class="analysis-label">Argument 02 — Property Dualism Explains Truman's Inner Life</p>
+      <p class="analysis-text">
+        Property Dualism illuminates the film's deepest tension. Truman's brain is a physical object — neurons firing in response to physical stimuli. Yet there is something it is like to be Truman. His growing sense of unease, his love for Sylvia, his existential dread when he realizes the sun follows him — these are mental properties that cannot be reduced to neural correlates. Even if Christof could monitor every neuron in Truman's brain, he could not fully access what Truman experiences subjectively. The film makes this explicit: Christof can control the physical world but not Truman's inner life. Truman's consciousness — his first-person experience — is beyond the reach of any physical apparatus. This is Property Dualism in action.
+      </p>
+    </div>
+
+    <div class="analysis-block">
+      <p class="analysis-label">Argument 03 — The Act of Walking Through the Door</p>
+      <p class="analysis-text">
+        The film's climax is philosophically precise. When Truman reaches the edge of the dome and chooses to walk through the door, he makes a decision that cannot be fully explained in physical terms. No physical cause compels him to leave. In fact, every physical incentive — safety, familiarity, comfort — argues for staying. What drives him through is a mental conviction about authenticity, freedom, and the irreducibility of his own inner life. His choice affirms that consciousness — a mental property — can override physical determinism. The film is arguing, quietly but insistently, that a reality composed only of matter is not enough. Mind is real too.
+      </p>
+    </div>
+
+    <div class="ornament">✦</div>
+
+    <p class="section-body">
+      Our instinct that Truman deserves freedom is itself a metaphysical claim about the irreducibility of the inner life. If reality were purely physical, then a perfect simulation would be indistinguishable from "real" experience — and Truman would have no legitimate complaint. The fact that we feel, viscerally, that he has been wronged, suggests that we already believe, intuitively, in the reality and importance of the mental.
+    </p>
+  </div>
+</div>
+
+<!-- CONCLUSION -->
+<section id="conclusion">
+  <p class="section-label">05 — Conclusion</p>
+  <h2 class="section-title">Reality Is <em>Both</em></h2>
+  <p class="section-body">
+    Having examined Materialism, Property Dualism, and the philosophical argument embedded in <em>The Truman Show</em>, we arrive at a position that neither pure Materialism nor any form of idealism can fully sustain: reality is both physical and mental.
+  </p>
+
+  <div class="conclusion-cards">
+    <div class="conclusion-card">
+      <p class="conclusion-card-label">The Physical Dimension</p>
+      <p class="conclusion-card-text">Matter is real. Truman's world has physical weight. Science explains a vast amount of what exists through physical laws. The brain is a physical organ, and mind depends on it. Materialism is not wrong — it is incomplete.</p>
+    </div>
+    <div class="conclusion-card">
+      <p class="conclusion-card-label">The Mental Dimension</p>
+      <p class="conclusion-card-text">Consciousness is real. The first-person experience of being alive — of seeing, feeling, choosing — cannot be fully captured by any physical description. Property Dualism honors this irreducible dimension of existence.</p>
+    </div>
+    <div class="conclusion-card">
+      <p class="conclusion-card-label">What Truman Shows Us</p>
+      <p class="conclusion-card-text">Truman's world is physically real and mentally constructed simultaneously. His liberation is a victory of consciousness over physical constraint. Reality, like Truman, cannot be reduced to either matter or mind alone.</p>
+    </div>
+    <div class="conclusion-card">
+      <p class="conclusion-card-label">The Philosophical Answer</p>
+      <p class="conclusion-card-text">The question "is reality physical, mental, or both?" may not have a final answer. But the evidence from philosophy and film converges on the same tentative conclusion: it is both — and the relationship between them remains the deepest mystery in philosophy.</p>
+    </div>
+  </div>
+
+  <div class="ornament">✦</div>
+
+  <p class="section-body">
+    The most honest philosophical position is that we cannot step outside our own consciousness to verify what reality ultimately is. Like Truman, we can only press against the walls of our world and choose to walk through the door — trusting that what lies beyond is worth the uncertainty.
+  </p>
+</section>
+
+<!-- WORKS CITED -->
+<div class="cited-section section-full" id="cited">
+  <div class="section-inner">
+    <p class="section-label">06 — Works Cited</p>
+    <h2 class="section-title">References</h2>
+    <p class="section-body" style="margin-bottom:2.5rem;">MLA 9th Edition Format</p>
+    <ul class="cited-list">
+      <li>Chalmers, David J. <em>The Conscious Mind: In Search of a Fundamental Theory.</em> Oxford University Press, 1996.</li>
+      <li>Churchland, Patricia S. <em>Neurophilosophy: Toward a Unified Science of the Mind-Brain.</em> MIT Press, 1986.</li>
+      <li>Dennett, Daniel C. <em>Consciousness Explained.</em> Little, Brown and Company, 1991.</li>
+      <li>Hobbes, Thomas. <em>Leviathan.</em> 1651. Edited by C.B. Macpherson, Penguin Classics, 1985.</li>
+      <li>Jackson, Frank. "Epiphenomenal Qualia." <em>The Philosophical Quarterly,</em> vol. 32, no. 127, 1982, pp. 127–136.</li>
+      <li>Nagel, Thomas. "What Is It Like to Be a Bat?" <em>The Philosophical Review,</em> vol. 83, no. 4, 1974, pp. 435–450.</li>
+      <li>Weir, Peter, director. <em>The Truman Show.</em> Paramount Pictures, 1998.</li>
+      <li>Plato. <em>The Republic.</em> Translated by Desmond Lee, Penguin Classics, 2007.</li>
+      <li>Descartes, René. <em>Meditations on First Philosophy.</em> 1641. Translated by John Cottingham, Cambridge University Press, 1996.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-title">What Is Real? — A Metaphysical Inquiry</p>
+  <p class="footer-sub">Grade 12 Philosophy &nbsp;·&nbsp; Metaphysics Unit &nbsp;·&nbsp; 2025–2026</p>
+</footer>
+
+</body>
+</html>
